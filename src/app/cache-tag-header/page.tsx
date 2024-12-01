@@ -1,5 +1,7 @@
+import RevalidateButton from '@/components/CacheTagButton';
 import CodeHighlighter from '@/components/CodeHighlighter';
 import { CheckCacheStatus } from '@/server/revalidate';
+import { Tag } from 'antd';
 import { headers } from 'next/headers';
 
 async function getWorldTime() {
@@ -81,9 +83,23 @@ export default async function CacheTagHeader() {
     return <div>loading...</div>;
   }
   return (
-    <div>
-      Cache tag header: {data.dateTime}, CACHE: {data.cache}
-      <div className="my-[15px]">
+    <div className="text-center">
+      <h1 className="text-[22px] my-[20px]">Cache with tagging use header()</h1>
+      <div>
+        <h1>DATA: {data.dateTime}</h1>
+        <h2>
+          CACHE-STATUS:{' '}
+          <Tag
+            color={data.cache === 'HIT' ? 'green' : 'red'}
+            className="text-[22px]">
+            {data.cache}
+          </Tag>
+        </h2>
+      </div>
+      <div className="my-[20px]">
+        <RevalidateButton tagName="worldtime-tag-header" />
+      </div>
+      <div className="my-[15px] text-start">
         <CodeHighlighter code={code} />
       </div>
     </div>
